@@ -20,7 +20,6 @@ function traverse(node, map, path = []) {
 			traverse(value, map, currentPath)
 		})
 	}
-
 	return map
 }
 
