@@ -10,7 +10,7 @@ function traverse(node, map, path = []) {
 	const keys = []
 	if (typeof node === 'object') {
 		Object.keys(node).forEach(key => {
-			const currentPath = [...path, key]
+			const currentPath = [...path, key.split('_')[0]]
 			keys.push(...traverse(node[key], map, currentPath))
 		})
 	} else {
@@ -19,10 +19,38 @@ function traverse(node, map, path = []) {
 	return keys
 }
 
+/**
+ * @function missingKeysInTranslation
+ * @description Check for missing keys in translation file
+ * @param {Map} translation The translation file
+ * @param {Array<string>} codeKeys The keys from the code
+ * @param {import('../react-18next-validator').Config} config The config for the validator
+ * @returns {void}
+ */
 function missingKeysInTranslation(translation, codeKeys, config) {
+	console.info('Traversal started...')
 	const translationKeys = traverse(translation, new Map())
+	console.info('Traversal finished. Comparing keys...')
+	const missingKeys = codeKeys.filter(key => !translationKeys.includes(key))
+
+	if (config.errorLevel === 'off') return
+	if (missingKeys.length > 0) {
+		const errorMessage = `Missing keys in translation:\n${JSON.stringify(missingKeys, null, 2)}`
+		if (config.errorLevel === 'error') throw new Error(errorMessage)
+		if (config.errorLevel === 'warn') console.warn(errorMessage)
+	} else {
+		console.info('No missing keys found.')
+	}
 }
 
+/**
+ * @function missingKeysInCode
+ * @description Check for missing keys in code
+ * @param {Map} translation The translation file
+ * @param {Array<string>} codeKeys The keys from the code
+ * @param {import('../react-18next-validator').Config} config The config for the validator
+ * @returns {void}
+ */
 function missingKeysInCode(translation, codeKeys, config) {
 	console.info('Traversal started...')
 	const translationKeys = traverse(translation, new Map())

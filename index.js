@@ -66,4 +66,10 @@ console.info('Getting code keys from files...')
 const codeKeys = files.map(file => getCodeKeys(file)).flat()
 console.info('Code keys found.')
 
+console.info('Comparison started (keys in code)...')
 missingKeysInCode(translation, codeKeys, config)
+
+console.info('Comparison started (keys in translation)...')
+missingKeysInTranslation(translation, codeKeys, config)
+
+console.info('Comparison finished.')

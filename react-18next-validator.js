@@ -14,7 +14,7 @@ const config = {
 	input: '../test/public/locales/en/translation.json',
 	errorLevel: 'error',
 	src: '../test/src',
-	regex: ["t[(][`']([a-zA-z0-9.]*)[`'][,)]"]
+	regex: ["t[(][`']([a-zA-z0-9.]*)[`'][,)]", "i18nKey=[`'\"]([^']+)[`'\"]"]
 }
 
 export default config
