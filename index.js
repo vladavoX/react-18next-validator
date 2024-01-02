@@ -1,6 +1,7 @@
 import fs from 'fs'
 import config from './react-18next-validator.js'
 import checkForDuplicateValues from './scripts/duplicates.js'
+import { missingKeysInCode, missingKeysInTranslation } from './scripts/missing.js'
 
 /**
  * @function loadTranslation
@@ -12,7 +13,9 @@ function loadTranslation() {
 	return JSON.parse(file)
 }
 
+console.info('Loading translation file...')
 const translation = loadTranslation()
+console.info('Translation file loaded.')
 checkForDuplicateValues(translation, config)
 
 /**
@@ -36,7 +39,9 @@ function readFiles(dir) {
 	return files
 }
 
+console.info('Reading .jsx / .tsx files...')
 const files = readFiles(config.src)
+console.info('Files read.')
 
 /**
  * @function getCodeKeys
@@ -57,4 +62,8 @@ function getCodeKeys(file) {
 	return codeKeys
 }
 
+console.info('Getting code keys from files...')
 const codeKeys = files.map(file => getCodeKeys(file)).flat()
+console.info('Code keys found.')
+
+missingKeysInCode(translation, codeKeys, config)
