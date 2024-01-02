@@ -7,6 +7,8 @@
  * @property {Array<string>} regex The regex to find the translation keys in the source files
  */
 
+export const Types = {}
+
 /**
  * @type {Config}
  */

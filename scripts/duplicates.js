@@ -1,3 +1,5 @@
+import * as Types from '../react-18next-validator'
+
 /**
  * @function traverse
  * @description Traverse the translation object and add the key-value pairs to a map
@@ -27,7 +29,7 @@ function traverse(node, map, path = []) {
  * @function checkForDuplicateValues
  * @description Check for duplicate values in translation file
  * @param {Map} translation The translation file
- * @param {import('../react-18next-validator').Config} config The config for the validator
+ * @param {Types.Config} config The config for the validator
  * @returns {void}
  */
 function checkForDuplicateValues(translation, config) {
