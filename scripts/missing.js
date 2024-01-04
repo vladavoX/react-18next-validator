@@ -1,4 +1,4 @@
-import * as Types from '../react-18next-validator'
+import * as Types from '../ri18next.config'
 
 /**
  * @function traverse
@@ -30,19 +30,20 @@ function traverse(node, map, path = []) {
  * @returns {void}
  */
 function missingKeysInTranslation(translation, codeKeys, config) {
-	console.info('Traversal started...')
+	console.info('[🟡] Checking for missing keys in translation...')
 	const translationKeys = traverse(translation, new Map())
-	console.info('Traversal finished. Comparing keys...')
 	const missingKeys = codeKeys.filter(key => !translationKeys.includes(key))
 
 	if (config.errorLevel === 'off') return
 	if (missingKeys.length > 0) {
-		const errorMessage = `Missing keys in translation:\n${JSON.stringify(missingKeys, null, 2)}`
+		const errorMessage = `[❌] Missing keys in translation:\n${JSON.stringify(missingKeys, null, 2)}`
 		if (config.errorLevel === 'error') throw new Error(errorMessage)
 		if (config.errorLevel === 'warn') console.warn(errorMessage)
 	} else {
-		console.info('No missing keys found.')
+		console.info('[✅] No missing keys found.')
 	}
+
+	console.info('----------------------------------------')
 }
 
 /**
@@ -54,19 +55,20 @@ function missingKeysInTranslation(translation, codeKeys, config) {
  * @returns {void}
  */
 function missingKeysInCode(translation, codeKeys, config) {
-	console.info('Traversal started...')
+	console.info('[🟡] Checking for missing keys in code...')
 	const translationKeys = traverse(translation, new Map())
-	console.info('Traversal finished. Comparing keys...')
 	const missingKeys = translationKeys.filter(key => !codeKeys.includes(key))
 
 	if (config.errorLevel === 'off') return
 	if (missingKeys.length > 0) {
-		const errorMessage = `Missing keys in code:\n${JSON.stringify(missingKeys, null, 2)}`
+		const errorMessage = `[❌] Missing keys in code:\n${JSON.stringify(missingKeys, null, 2)}`
 		if (config.errorLevel === 'error') throw new Error(errorMessage)
 		if (config.errorLevel === 'warn') console.warn(errorMessage)
 	} else {
-		console.info('No missing keys found.')
+		console.info('[✅] No missing keys found.')
 	}
+
+	console.info('----------------------------------------')
 }
 
 export { missingKeysInTranslation, missingKeysInCode }

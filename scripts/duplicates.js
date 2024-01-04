@@ -1,4 +1,4 @@
-import * as Types from '../react-18next-validator'
+import * as Types from '../ri18next.config'
 
 /**
  * @function traverse
@@ -34,11 +34,9 @@ function traverse(node, map, path = []) {
  */
 function checkForDuplicateValues(translation, config) {
 	const keyValueMap = new Map()
-
-	console.info('Traversal started...')
 	const traversedMap = traverse(translation, keyValueMap)
 
-	console.info('Traversal finished. Checking for duplicates...')
+	console.info('[🟡] Checking for duplicates...')
 	const result = []
 	traversedMap.forEach((keys, value) => {
 		if (keys.length > 1) result.push({ value, keys })
@@ -46,12 +44,14 @@ function checkForDuplicateValues(translation, config) {
 
 	if (config.errorLevel === 'off') return
 	if (result.length > 0) {
-		const errorMessage = `Duplicate values found in translation.json:\n${JSON.stringify(result, null, 2)}`
+		const errorMessage = `[❌] Duplicate values found in translation.json:\n${JSON.stringify(result, null, 2)}`
 		if (config.errorLevel === 'error') throw new Error(errorMessage)
 		if (config.errorLevel === 'warn') console.warn(errorMessage)
 	} else {
-		console.info('No duplicates found.')
+		console.info('[✅] No duplicates found.')
 	}
+
+	console.info('----------------------------------------')
 }
 
-export default checkForDuplicateValues
+export { checkForDuplicateValues }
