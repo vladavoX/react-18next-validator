@@ -12,11 +12,9 @@ export const Types = {}
 /**
  * @type {Config}
  */
-const config = {
+export const config = {
 	directory: '../test/public/locales/',
 	errorLevel: 'error',
 	src: '../test/src',
 	regex: ["t[(][`']([a-zA-z0-9.]*)[`'][,)]", "i18nKey=[`'\"]([^']+)[`'\"]"]
 }
-
-export default config

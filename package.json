@@ -1,0 +1,29 @@
+{
+	"name": "react-i18next-validator",
+	"version": "0.0.1",
+	"description": "react-i18next validator. Validate there are no duplicate keys in translation files. Validate there are no missing keys in code that are provided in translation files. Validate there are no missing keys in translation files that are provided in code files.",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/vladavoX/react-i18next-validator.git"
+	},
+	"type": "module",
+	"keywords": [
+		"react",
+		"react-i18next",
+		"i8next",
+		"validator",
+		"duplicates",
+		"missing",
+		"keys"
+	],
+	"bin": {
+		"ri18next-validator": "./index.js"
+	},
+	"author": "Vladimir Aleksic",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/vladavoX/react-i18next-validator/issues"
+	},
+	"homepage": "https://github.com/vladavoX/react-i18next-validator#readme"
+}

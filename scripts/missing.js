@@ -1,4 +1,4 @@
-import * as Types from '../ri18next.config'
+import * as Types from '../ri18next.config.js'
 
 /**
  * @function traverse
@@ -8,7 +8,7 @@ import * as Types from '../ri18next.config'
  * @param {Array<string>} path The path of the current node
  * @returns {Map<string, string>} The map with the key-value pairs
  */
-function traverse(node, map, path = []) {
+const traverse = (node, map, path = []) => {
 	const keys = []
 	if (typeof node === 'object') {
 		Object.keys(node).forEach(key => {
@@ -29,7 +29,7 @@ function traverse(node, map, path = []) {
  * @param {Types.Config} config The config for the validator
  * @returns {void}
  */
-function missingKeysInTranslation(translation, codeKeys, config) {
+export const missingKeysInTranslation = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in translation...')
 	const translationKeys = traverse(translation, new Map())
 	const missingKeys = codeKeys.filter(key => !translationKeys.includes(key))
@@ -54,7 +54,7 @@ function missingKeysInTranslation(translation, codeKeys, config) {
  * @param {Types.Config} config The config for the validator
  * @returns {void}
  */
-function missingKeysInCode(translation, codeKeys, config) {
+export const missingKeysInCode = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in code...')
 	const translationKeys = traverse(translation, new Map())
 	const missingKeys = translationKeys.filter(key => !codeKeys.includes(key))
@@ -70,5 +70,3 @@ function missingKeysInCode(translation, codeKeys, config) {
 
 	console.info('----------------------------------------')
 }
-
-export { missingKeysInTranslation, missingKeysInCode }

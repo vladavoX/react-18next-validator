@@ -1,4 +1,4 @@
-import * as Types from '../ri18next.config'
+import * as Types from '../ri18next.config.js'
 
 /**
  * @function traverse
@@ -8,7 +8,7 @@ import * as Types from '../ri18next.config'
  * @param {Array<string>} path The path of the current node
  * @returns {Map<string, string>} The map with the key-value pairs
  */
-function traverse(node, map, path = []) {
+const traverse = (node, map, path = []) => {
 	if (typeof node === 'object') {
 		Object.entries(node).forEach(([key, value]) => {
 			const currentPath = [...path, key]
@@ -32,7 +32,7 @@ function traverse(node, map, path = []) {
  * @param {Types.Config} config The config for the validator
  * @returns {void}
  */
-function checkForDuplicateValues(translation, config) {
+export const checkForDuplicateValues = (translation, config) => {
 	const keyValueMap = new Map()
 	const traversedMap = traverse(translation, keyValueMap)
 
@@ -53,5 +53,3 @@ function checkForDuplicateValues(translation, config) {
 
 	console.info('----------------------------------------')
 }
-
-export { checkForDuplicateValues }

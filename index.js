@@ -1,5 +1,5 @@
-import config from './ri18next.config'
-
+#!/usr/bin/env node
+import { config } from './ri18next.config.js'
 import { loadJsonFiles, loadTranslation, readFiles, getCodeKeys } from './utils.js'
 import { checkForDuplicateValues } from './scripts/duplicates.js'
 import { missingKeysInCode, missingKeysInTranslation } from './scripts/missing.js'

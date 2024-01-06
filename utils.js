@@ -1,5 +1,5 @@
 import fs from 'fs'
-import * as Types from './ri18next.config'
+import * as Types from './ri18next.config.js'
 
 /**
  * @function readFiles
@@ -7,7 +7,7 @@ import * as Types from './ri18next.config'
  * @param {string} dir The directory to read
  * @returns {Array<string>} Returns an array with all .jsx and .tsx files
  */
-function readFiles(dir) {
+export const readFiles = dir => {
 	const files = []
 	fs.readdirSync(dir).forEach(file => {
 		const filePath = `${dir}/${file}`
@@ -28,7 +28,7 @@ function readFiles(dir) {
  * @param {Types.Config} config The config for the validator
  * @returns {Array<string>} Returns an array with all matches
  */
-function getCodeKeys(file, config) {
+export const getCodeKeys = (file, config) => {
 	const fileContent = fs.readFileSync(file, 'utf-8')
 	const regexes = config.regex.map(regex => new RegExp(regex, 'g'))
 	const codeKeys = []
@@ -47,7 +47,7 @@ function getCodeKeys(file, config) {
  * @param {Types.Config} config The config for the validator
  * @returns {Array<string>} Returns an array with all json files
  */
-function loadJsonFiles(config) {
+export const loadJsonFiles = config => {
 	const localeDirs = fs.readdirSync(config.directory).map(dir => `${config.directory}${dir}`)
 	const translationFiles = localeDirs
 		.map(dir => fs.readdirSync(dir).map(file => `${dir}/${file}`))
@@ -62,11 +62,9 @@ function loadJsonFiles(config) {
  * @param {string} translationFile // Location of the translation file
  * @returns {Map} Returns the translation
  */
-function loadTranslation(translationFile) {
+export const loadTranslation = translationFile => {
 	const translation = fs.readFileSync(translationFile, 'utf-8')
 	console.info(`[✅] Translation file loaded. File: ${translationFile}`)
 	console.info('----------------------------------------')
 	return JSON.parse(translation)
 }
-
-export { loadJsonFiles, loadTranslation, readFiles, getCodeKeys }
