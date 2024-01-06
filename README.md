@@ -1,5 +1,7 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+
 <a name="readme-top"></a>
+
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
@@ -7,8 +9,6 @@
 *** Don't forget to give the project a star!
 *** Thanks again! Now go create something AMAZING! :D
 -->
-
-
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -18,6 +18,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -25,16 +26,15 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
 <br />
 <div align="center">
 
 <h3 align="center">react-i18next-validator</h3>
 
   <p align="center">
-    project_description
+    react-i18next validator. Validate there are no duplicate keys in translation files. Validate there are no missing keys in code that are provided in translation files. Validate there are no missing keys in translation files that are provided in code files.
     <br />
-    <a href="https://github.com/vladavoX/react-i18next-validator"><strong>Explore the docs »</strong></a>
+    <a href="https://vladavox.github.io/react-i18next-validator/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/vladavoX/react-i18next-validator/issues">Report Bug</a>
@@ -42,8 +42,6 @@
     <a href="https://github.com/vladavoX/react-i18next-validator/issues">Request Feature</a>
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -58,54 +56,67 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `vladavoX`, `react-i18next-validator`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+Stop cluttering translation.json files with keys that are no longer used or duplicate values. Make sure you don't forget to add a key to the translation file when you add it to the code. Make sure you don't forget to remove a key from the translation file when you remove it from the code.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+## Getting Started
 
 ### Installation
 
 1. Install NPM package
-   ```sh
-   npm install react-i18next-validator
-   ```
-2. Create config `ri18-config.js`
-   ```js
-   
-   ```
+
+```sh
+npm install react-i18next-validator
+```
+
+2. Create config file in root directory `ri18next-v.config.json`
+
+```json
+{
+	"directory": "./public/locales/", // path to translation locales directory
+	"src": "./src/" // path to source code directory
+}
+```
+
+3. Add script to `package.json`
+
+```json
+"scripts": {
+  "ri18next-v": "ri18next-validator"
+}
+```
+
+4. Run script
+
+```sh
+npm run ri18next-v
+```
+
+5. You can add additional options to the config
+
+```json
+{
+	"errorLevel": "error", // error, warn, info
+	"regex": [] // array of regex to look for in code files to match translation keys
+}
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -121,18 +132,17 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/vladavoX/react-i18next-validator.svg?style=for-the-badge
 [contributors-url]: https://github.com/vladavoX/react-i18next-validator/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/vladavoX/react-i18next-validator.svg?style=for-the-badge
