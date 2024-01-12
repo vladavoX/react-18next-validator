@@ -1,6 +1,6 @@
 {
 	"name": "react-i18next-validator",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "react-i18next validator. Validate there are no duplicate keys in translation files. Validate there are no missing keys in code that are provided in translation files. Validate there are no missing keys in translation files that are provided in code files.",
 	"main": "index.js",
 	"repository": {
