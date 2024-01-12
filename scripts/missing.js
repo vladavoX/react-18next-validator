@@ -32,7 +32,9 @@ const traverse = (node, map, path = []) => {
 export const missingKeysInTranslation = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in translation...')
 	const translationKeys = traverse(translation, new Map())
-	const missingKeys = codeKeys.filter(key => !translationKeys.includes(key))
+	const missingKeys = codeKeys
+		.filter(key => !translationKeys.includes(key))
+		.filter(key => !config.ignoreKeys.includes(key))
 
 	if (config.errorLevel === 'off') return
 	if (missingKeys.length > 0) {
@@ -57,7 +59,9 @@ export const missingKeysInTranslation = (translation, codeKeys, config) => {
 export const missingKeysInCode = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in code...')
 	const translationKeys = traverse(translation, new Map())
-	const missingKeys = translationKeys.filter(key => !codeKeys.includes(key))
+	const missingKeys = translationKeys
+		.filter(key => !codeKeys.includes(key))
+		.filter(key => !config.ignoreKeys.includes(key))
 
 	if (config.errorLevel === 'off') return
 	if (missingKeys.length > 0) {

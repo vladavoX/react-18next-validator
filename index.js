@@ -38,7 +38,8 @@ const mergedConfig = {
 	errorLevel: config?.errorLevel || defaultConfig.errorLevel,
 	src: config.src,
 	directory: config.directory,
-	regex: config?.regex ? [...config.regex, ...defaultConfig.regex] : defaultConfig.regex
+	regex: config?.regex ? [...config.regex, ...defaultConfig.regex] : defaultConfig.regex,
+	ignoreKeys: config?.ignoreKeys || []
 }
 
 const files = readFiles(mergedConfig.src)
