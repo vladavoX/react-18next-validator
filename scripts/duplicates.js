@@ -38,8 +38,10 @@ export const checkForDuplicateValues = (translation, config) => {
 
 	console.info('[🟡] Checking for duplicates...')
 	const result = []
+	const regex = /\$t\(([^)]+)\)/
+
 	traversedMap.forEach((keys, value) => {
-		if (keys.length > 1) result.push({ value, keys })
+		if (keys.length > 1 && !regex.test(value)) result.push({ value, keys })
 	})
 
 	if (config.errorLevel === 'off') return
