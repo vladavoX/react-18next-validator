@@ -41,7 +41,8 @@ export const checkForDuplicateValues = (translation, config) => {
 	const regex = /\$t\(([^)]+)\)/
 
 	traversedMap.forEach((keys, value) => {
-		if (keys.length > 1 && !regex.test(value)) result.push({ value, keys })
+		if (keys.length > 1 && !regex.test(value) && !config.ignoreKeys.some(key => keys.includes(key)))
+			result.push({ value, keys })
 	})
 
 	if (config.errorLevel === 'off') return

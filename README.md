@@ -109,7 +109,8 @@ npm run ri18next-v
 ```json
 {
 	"errorLevel": "error", // error, warn, info
-	"regex": [] // array of regex to look for in code files to match translation keys
+	"regex": [], // string[] array of regex to look for in code files to match translation keys
+	"ignoreKeys": [] // string[] array of keys to ignore
 }
 ```
 
