@@ -52,8 +52,8 @@ for (const translationFile of translationFiles) {
 	console.info('----------------------------------------')
 
 	checkForDuplicateValues(translation, mergedConfig)
-	missingKeysInCode(translation, codeKeys, mergedConfig)
 	missingKeysInTranslation(translation, codeKeys, mergedConfig)
+	missingKeysInCode(translation, codeKeys, mergedConfig)
 }
 
 console.info('[✅] Comparison finished. All good.')

@@ -1,24 +1,50 @@
 import * as Types from '../ri18next.config.js'
 
 /**
- * @function traverse
+ * @function traverseTranslation
  * @description Traverse the translation object and add the key-value pairs to a map
  * @param {Object} node The current node
  * @param {Map<string, string>} map The map with the key-value pairs
  * @param {Array<string>} path The path of the current node
- * @returns {Map<string, string>} The map with the key-value pairs
+ * @returns {Array<string>} The map with the key-value pairs
  */
-const traverse = (node, map, path = []) => {
+const traverseTranslation = (node, map, path = []) => {
 	const keys = []
 	if (typeof node === 'object') {
 		Object.keys(node).forEach(key => {
 			const currentPath = [...path, key.split('_')[0]]
-			keys.push(...traverse(node[key], map, currentPath))
+			keys.push(...traverseTranslation(node[key], map, currentPath))
 		})
 	} else {
 		keys.push(path.join('.'))
 	}
 	return keys
+}
+
+/**
+ * @function traverseCode
+ * @description Traverse the translation object and add the key-value pairs to a map
+ * @param {Object} node The current node
+ * @param {Map<string, string>} map The map with the key-value pairs
+ * @param {Array<string>} path The path of the current node
+ * @param {Array<string>} [filterThese] The keys to filter out
+ * @returns {Array<string>} The map with the key-value pairs
+ */
+const traverseCode = (node, map, path = [], filterThese = []) => {
+	const keys = []
+	const regex = /\$t\((.*?)\)/
+	if (typeof node === 'object') {
+		Object.entries(node).forEach(([key, value]) => {
+			const match = regex.exec(value)
+			if (match) filterThese.push(match[1].replace(/['"]/g, ''))
+			const currentPath = [...path, key.split('_')[0]]
+			keys.push(...traverseCode(node[key], map, currentPath, filterThese))
+		})
+	} else {
+		keys.push(path.join('.'))
+	}
+
+	return keys.filter(key => !filterThese.includes(key))
 }
 
 /**
@@ -31,7 +57,7 @@ const traverse = (node, map, path = []) => {
  */
 export const missingKeysInTranslation = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in translation...')
-	const translationKeys = traverse(translation, new Map())
+	const translationKeys = traverseTranslation(translation, new Map())
 	const missingKeys = codeKeys
 		.filter(key => !translationKeys.includes(key))
 		.filter(key => !config.ignoreKeys.includes(key))
@@ -58,7 +84,7 @@ export const missingKeysInTranslation = (translation, codeKeys, config) => {
  */
 export const missingKeysInCode = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in code...')
-	const translationKeys = traverse(translation, new Map())
+	const translationKeys = traverseCode(translation, new Map())
 	const missingKeys = translationKeys
 		.filter(key => !codeKeys.includes(key))
 		.filter(key => !config.ignoreKeys.includes(key))
