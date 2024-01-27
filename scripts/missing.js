@@ -6,19 +6,25 @@ import * as Types from '../ri18next.config.js'
  * @param {Object} node The current node
  * @param {Map<string, string>} map The map with the key-value pairs
  * @param {Array<string>} path The path of the current node
- * @returns {Map<string, string>} The map with the key-value pairs
+ * @param {Array<string>} [filterThese] The keys to filter out
+ * @param {boolean} [codeCheck] Check for code keys
+ * @returns {Array<string>} The map with the key-value pairs
  */
-const traverse = (node, map, path = []) => {
+const traverse = (node, map, path, filterThese, codeCheck) => {
 	const keys = []
+	const regex = /\$t\((.*?)\)/
 	if (typeof node === 'object') {
-		Object.keys(node).forEach(key => {
+		Object.entries(node).forEach(([key, value]) => {
+			const match = regex.exec(value)
+			if (match && codeCheck) filterThese.push(match[1].replace(/['"]/g, ''))
 			const currentPath = [...path, key.split('_')[0]]
-			keys.push(...traverse(node[key], map, currentPath))
+			keys.push(...traverse(node[key], map, currentPath, filterThese, codeCheck))
 		})
 	} else {
 		keys.push(path.join('.'))
 	}
-	return keys
+
+	return codeCheck ? keys.filter(key => !filterThese.includes(key)) : keys
 }
 
 /**
@@ -31,7 +37,7 @@ const traverse = (node, map, path = []) => {
  */
 export const missingKeysInTranslation = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in translation...')
-	const translationKeys = traverse(translation, new Map())
+	const translationKeys = traverse(translation, new Map(), [])
 	const missingKeys = codeKeys
 		.filter(key => !translationKeys.includes(key))
 		.filter(key => !config.ignoreKeys.includes(key))
@@ -58,7 +64,7 @@ export const missingKeysInTranslation = (translation, codeKeys, config) => {
  */
 export const missingKeysInCode = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in code...')
-	const translationKeys = traverse(translation, new Map())
+	const translationKeys = traverse(translation, new Map(), [], [], true)
 	const missingKeys = translationKeys
 		.filter(key => !codeKeys.includes(key))
 		.filter(key => !config.ignoreKeys.includes(key))
