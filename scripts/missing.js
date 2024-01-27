@@ -1,50 +1,30 @@
 import * as Types from '../ri18next.config.js'
 
 /**
- * @function traverseTranslation
- * @description Traverse the translation object and add the key-value pairs to a map
- * @param {Object} node The current node
- * @param {Map<string, string>} map The map with the key-value pairs
- * @param {Array<string>} path The path of the current node
- * @returns {Array<string>} The map with the key-value pairs
- */
-const traverseTranslation = (node, map, path = []) => {
-	const keys = []
-	if (typeof node === 'object') {
-		Object.keys(node).forEach(key => {
-			const currentPath = [...path, key.split('_')[0]]
-			keys.push(...traverseTranslation(node[key], map, currentPath))
-		})
-	} else {
-		keys.push(path.join('.'))
-	}
-	return keys
-}
-
-/**
- * @function traverseCode
+ * @function traverse
  * @description Traverse the translation object and add the key-value pairs to a map
  * @param {Object} node The current node
  * @param {Map<string, string>} map The map with the key-value pairs
  * @param {Array<string>} path The path of the current node
  * @param {Array<string>} [filterThese] The keys to filter out
+ * @param {boolean} [codeCheck] Check for code keys
  * @returns {Array<string>} The map with the key-value pairs
  */
-const traverseCode = (node, map, path = [], filterThese = []) => {
+const traverse = (node, map, path, filterThese, codeCheck) => {
 	const keys = []
 	const regex = /\$t\((.*?)\)/
 	if (typeof node === 'object') {
 		Object.entries(node).forEach(([key, value]) => {
 			const match = regex.exec(value)
-			if (match) filterThese.push(match[1].replace(/['"]/g, ''))
+			if (match && codeCheck) filterThese.push(match[1].replace(/['"]/g, ''))
 			const currentPath = [...path, key.split('_')[0]]
-			keys.push(...traverseCode(node[key], map, currentPath, filterThese))
+			keys.push(...traverse(node[key], map, currentPath, filterThese, codeCheck))
 		})
 	} else {
 		keys.push(path.join('.'))
 	}
 
-	return keys.filter(key => !filterThese.includes(key))
+	return codeCheck ? keys.filter(key => !filterThese.includes(key)) : keys
 }
 
 /**
@@ -57,7 +37,7 @@ const traverseCode = (node, map, path = [], filterThese = []) => {
  */
 export const missingKeysInTranslation = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in translation...')
-	const translationKeys = traverseTranslation(translation, new Map())
+	const translationKeys = traverse(translation, new Map(), [])
 	const missingKeys = codeKeys
 		.filter(key => !translationKeys.includes(key))
 		.filter(key => !config.ignoreKeys.includes(key))
@@ -84,7 +64,7 @@ export const missingKeysInTranslation = (translation, codeKeys, config) => {
  */
 export const missingKeysInCode = (translation, codeKeys, config) => {
 	console.info('[🟡] Checking for missing keys in code...')
-	const translationKeys = traverseCode(translation, new Map())
+	const translationKeys = traverse(translation, new Map(), [], [], true)
 	const missingKeys = translationKeys
 		.filter(key => !codeKeys.includes(key))
 		.filter(key => !config.ignoreKeys.includes(key))
