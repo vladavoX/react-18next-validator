@@ -15,5 +15,5 @@ export const Types = {}
  */
 export const defaultConfig = {
 	errorLevel: 'error',
-	regex: ["t[(][`']([a-zA-z0-9.]*)[`'][,)]", "i18nKey=[`'\"]([^']+)[`'\"]"]
+	regex: ["[ {]t[(][`']([a-zA-z0-9.]*)[`'][,)]", "i18nKey=[`'\"]([^']+)[`'\"]"]
 }
