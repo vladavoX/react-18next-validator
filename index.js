@@ -1,26 +1,11 @@
 #!/usr/bin/env node
-import fs from 'fs'
 import path from 'path'
 import * as Types from './ri18next.config.js'
 
-const configFile = 'ri18next-v.config.json'
-const configFilePath = path.resolve(process.cwd(), configFile)
+const CONFIG_FILE_NAME = 'ri18next-v.config.js'
+const configFilePath = path.resolve(CONFIG_FILE_NAME)
 
-/**
- * @function returnConfig
- * @description Reads the config file and returns the user config
- * @returns {Types.Config}
- */
-const returnConfig = () => {
-	if (fs.existsSync(configFilePath)) {
-		const configFileContent = fs.readFileSync(configFilePath, 'utf8')
-		return JSON.parse(configFileContent)
-	} else {
-		throw new Error(`[🔴] No config file found. Please create a ${configFile} file in the root of your project.`)
-	}
-}
-
-const config = returnConfig()
+const { config } = await import(configFilePath)
 
 import { defaultConfig } from './ri18next.config.js'
 import { loadJsonFiles, loadTranslation, readFiles, getCodeKeys } from './utils.js'

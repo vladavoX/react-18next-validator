@@ -1,5 +1,5 @@
 /**
- * @typedef {{errorLevel: 'warn'|'error'|'off', regex: Array<string>, src: string, directory: string, ignoreKeys: string[]}} Config
+ * @typedef {{errorLevel: 'warn'|'error'|'off', regex: Array<RegExp>, src: string, directory: string, ignoreKeys: string[]}} Config
  * @description The default config for the validator
  * @property {'warn'|'error'|'off'} [errorLevel] The error level
  * @property {Array<RegExp>} [regex] The regex to find the translation keys in the source files

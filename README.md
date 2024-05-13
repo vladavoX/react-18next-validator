@@ -75,18 +75,19 @@ Stop cluttering translation.json files with keys that are no longer used or dupl
 
 ### Installation
 
-1. Install NPM package
+1. Install package
 
 ```sh
-npm install react-i18next-validator
+npm install react-i18next-validator --save-dev
+yarn add -D react-i18next-validator
 ```
 
-2. Create config file in root directory `ri18next-v.config.json`
+2. Create config file in root directory `ri18next-v.config.js`
 
-```json
-{
-	"directory": "./public/locales/", // path to translation locales directory
-	"src": "./src/" // path to source code directory
+```javascript
+export const config = {
+	directory: './public/locales/',
+	src: './src/'
 }
 ```
 
@@ -102,15 +103,16 @@ npm install react-i18next-validator
 
 ```sh
 npm run ri18next-v
+yarn ri18next-v
 ```
 
 5. You can add additional options to the config
 
-```json
-{
-	"errorLevel": "error", // error, warn, info
-	"regex": [], // string[] array of regex to look for in code files to match translation keys
-	"ignoreKeys": [] // string[] array of keys to ignore
+```javascript
+export const config = {
+	errorLevel: 'error', // error, warn, info
+	regex: [/someRegex/g], // RegExp[] array of regex to look for in code files to match translation keys
+	ignoreKeys: ['foo', 'bar'] // string[] array of keys to ignore
 }
 ```
 
