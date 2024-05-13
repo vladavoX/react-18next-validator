@@ -23,16 +23,16 @@ export const readFiles = dir => {
 
 /**
  * @function getCodeKeys
- * @description Get all code keys from the given file using the regexes from the config
+ * @description Get all code keys from the given file using the regex array from the config
  * @param {string} file The file to check
  * @param {Types.Config} config The config for the validator
  * @returns {Array<string>} Returns an array with all matches
  */
 export const getCodeKeys = (file, config) => {
 	const fileContent = fs.readFileSync(file, 'utf-8')
-	const regexes = config.regex.map(regex => new RegExp(regex, 'g'))
+	const regexArray = config.regex.map(regex => new RegExp(regex, 'g'))
 	const codeKeys = []
-	regexes.forEach(regex => {
+	regexArray.forEach(regex => {
 		let match
 		while ((match = regex.exec(fileContent)) !== null) {
 			codeKeys.push(match[1])
